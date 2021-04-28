@@ -2,11 +2,9 @@
 **CRITICAL / MAJOR / MINOR**
 
 ## Component
-**RUNTIME / PYTHON BINDING / C BINDING / MONITOR / TRACING / TESTS / INFRASTRUCTURE**
+**CRON / BOT**
 
 ## Environment
-* COMPSs version
-* Java / Python / C version
 * Operating System
 
 ## Description

@@ -1,13 +1,17 @@
 <!-- Main Repository language -->
-[![Language](https://img.shields.io/badge/language-markdown-brightgreen.svg)](https://img.shields.io/badge/language-markdown-brightgreen.svg)
+[![Language](https://img.shields.io/badge/language-python-brightgreen.svg)](https://img.shields.io/badge/language-python-brightgreen.svg)
 
 <!-- Repository License -->
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cristianrcv/init_basic_files/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cristianrcv/reservation-cron/blob/master/LICENSE)
 
 
-# Template repository
+# Automatic Reservation
 
-Template repository containing the basic files to initialize a new project.
+A Telegram bot that:
+
+- Sets up a reservation cron job
+- Notifies you every time a reservation has been made (or failed)
+- Notifies you when the balance is lower than a certain limit
 
 
 ---
@@ -24,7 +28,10 @@ Template repository containing the basic files to initialize a new project.
 
 ## Dependencies
 
-- None
+- python-telegram-bot
+- bs4 (bautifulsoup4)
+- schedule
+- selenium
 
 
 ## Contributing
@@ -33,9 +40,11 @@ All kinds of contributions are welcome. Please do not hesitate to open a new iss
 submit a pull request or contact the author if necessary. 
  
 
-## Author
+## Authors
 
 Cristián Ramón-Cortés Vilarrodona <cristian.ramoncortes(at)bsc.es> ([Personal Website][cristian])
+
+Dani Llorens
 
 
 ## License
