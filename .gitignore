@@ -1,5 +1,12 @@
 # ========== Project ignores =================
 secrets/
+chromedriver/
+out/
+venv/
+
+
+# ========== IntelliJ ignores =================
+.DS_Store
 
 
 # ========== IntelliJ ignores =================
