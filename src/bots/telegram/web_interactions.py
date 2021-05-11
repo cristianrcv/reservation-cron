@@ -18,7 +18,7 @@ logging.basicConfig(
 #
 # STATIC ATTRIBUTES
 #
-LOGGER = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 
 #
@@ -101,34 +101,42 @@ def _get_balance(browser: webdriver.Chrome) -> float:
 # PUBLIC METHODS
 #
 def get_all_reservations() -> list:  # (day, start_time, end_time, field)
-    LOGGER.info("Retrieving reservations")
+    _LOGGER.debug("Retrieving reservations")
 
     browser_session_manager = BrowserSessionManager()
-    browser_session_manager.login()
+    reservations = []
+    try:
+        browser_session_manager.login()
 
-    _navigate_intranet(browser_session_manager)
-    _navigate_reservations(browser_session_manager)
-    reservations = _get_reservations(browser_session_manager.get_browser())
-
-    browser_session_manager.quit()
-
-    LOGGER.info("Retrieving reservation DONE")
+        _navigate_intranet(browser_session_manager)
+        _navigate_reservations(browser_session_manager)
+        reservations = _get_reservations(browser_session_manager.get_browser())
+    except Exception as e:
+        _LOGGER.error("ERROR: Cannot retrieve reservations")
+        _LOGGER.error(e)
+    finally:
+        browser_session_manager.quit()
+        _LOGGER.debug("Retrieving reservation DONE")
 
     return reservations
 
 
 def get_balance() -> float:
-    LOGGER.info("Retrieving balance")
+    _LOGGER.debug("Retrieving balance")
 
     browser_session_manager = BrowserSessionManager()
-    browser_session_manager.login()
+    balance = None
+    try:
+        browser_session_manager.login()
 
-    _navigate_intranet(browser_session_manager)
-    _navigate_balance_control(browser_session_manager)
-    balance = _get_balance(browser_session_manager.get_browser())
-
-    browser_session_manager.quit()
-
-    LOGGER.info("Retrieving balance DONE")
+        _navigate_intranet(browser_session_manager)
+        _navigate_balance_control(browser_session_manager)
+        balance = _get_balance(browser_session_manager.get_browser())
+    except Exception as e:
+        _LOGGER.error("ERROR: Cannot retrieve reservations")
+        _LOGGER.error(e)
+    finally:
+        browser_session_manager.quit()
+        _LOGGER.debug("Retrieving balance DONE")
 
     return balance
