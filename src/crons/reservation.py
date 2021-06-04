@@ -2,6 +2,7 @@
 
 import logging
 import time
+from typing import Optional
 
 from utils.browser_session_manager import BrowserSessionManager
 
@@ -57,7 +58,8 @@ _CSS_DURATION_TO_CODE = {
 def _book(browser_session_manager: BrowserSessionManager,
           game_day: str,
           game_start_time: str,
-          game_duration: str) -> None:
+          game_duration: str,
+          disabled_for_testing: bool) -> None:
     # Move to reservations tab
     browser_session_manager.navigate(
         "ctl00_ctl00_ContentPlaceHolderContenido_WUCMenuLateralIzquierdaIntranet_LiBuscadorReservas"
@@ -107,10 +109,13 @@ def _book(browser_session_manager: BrowserSessionManager,
     time.sleep(_SLOW_TYPE_SLEEP_TIME)
 
     # Make reservation
-    # TODO: Make actual reservation
     browser_session_manager.navigate(
         "ctl00_ContentPlaceHolderContenido_ButtonPagoSaldo"
     )
+    if not disabled_for_testing:
+        browser_session_manager.navigate(
+            "ctl00_ContentPlaceHolderContenido_ButtonConfirmar"
+        )
 
     # Log success
     _LOGGER.info(
@@ -125,7 +130,11 @@ def _book(browser_session_manager: BrowserSessionManager,
 #
 # MAIN METHOD
 #
-def do_reservation(game_day: str, game_start_time: str, game_duration: str) -> None:
+def do_reservation(
+        game_day: str,
+        game_start_time: str,
+        game_duration: str,
+        disabled_for_testing: Optional[bool] = False) -> None:
     _LOGGER.info(
         "Making reservation for game_day=%s, game_start_time=%s, game_duration=%s",
         game_day,
@@ -137,7 +146,7 @@ def do_reservation(game_day: str, game_start_time: str, game_duration: str) -> N
         browser_session_manager = BrowserSessionManager()
         try:
             browser_session_manager.login()
-            _book(browser_session_manager, game_day, game_start_time, game_duration)
+            _book(browser_session_manager, game_day, game_start_time, game_duration, disabled_for_testing)
         except Exception as e:
             _LOGGER.error("ERROR: Internal error while performing reservation")
             _LOGGER.error(e)
