@@ -76,6 +76,7 @@ class CmdStatus(IntEnum):
     RESERVATION_DONE = 15
     RESERVATION_FAILED = 16
     SHOW_BALANCE_ALERT = 17
+    UNAUTHORISED_USER = 18
 
 
 def show_help(update: Update, _: CallbackContext) -> int:
@@ -115,6 +116,9 @@ def start(update: Update, _: CallbackContext) -> int:
     global BOT_VERSION
     global _IS_ACTIVATED
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.info("Bot started: Name = %s, Version = %s", str(BOT_NAME), str(BOT_VERSION))
 
     _IS_ACTIVATED = True
@@ -131,6 +135,9 @@ def start(update: Update, _: CallbackContext) -> int:
 def stop(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.info("Bot stopped")
 
     _IS_ACTIVATED = False
@@ -145,6 +152,9 @@ def stop(update: Update, _: CallbackContext) -> int:
 def reset(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CRON_INTERACTIONS
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.info("Bot reset")
 
@@ -165,6 +175,9 @@ def reset(update: Update, _: CallbackContext) -> int:
 def show_reservation_crons(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CRON_INTERACTIONS
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: show_reservation_crons")
 
@@ -188,6 +201,9 @@ def show_reservation_crons(update: Update, _: CallbackContext) -> int:
 def show_reservations(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Received new request: show_reservations")
 
     if _IS_ACTIVATED:
@@ -209,6 +225,9 @@ def show_reservations(update: Update, _: CallbackContext) -> int:
 def show_balance(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Received new request: show_balance")
 
     if _IS_ACTIVATED:
@@ -226,6 +245,9 @@ def show_balance(update: Update, _: CallbackContext) -> int:
 def show_balance_alert(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _BALANCE_ALERT
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: show_balance_alert")
 
@@ -246,6 +268,9 @@ def setup_reservation_cron(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Received new request: setup_reservation_cron")
 
     if _IS_ACTIVATED:
@@ -265,6 +290,9 @@ def setup_reservation_cron(update: Update, _: CallbackContext) -> int:
 def setup_reservation_cron_start_time(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: setup_reservation_cron_start_time")
 
@@ -289,6 +317,9 @@ def setup_reservation_cron_game_time(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Received new request: setup_reservation_cron_game_time")
 
     if _IS_ACTIVATED:
@@ -312,6 +343,9 @@ def setup_reservation_cron_complete(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
     global _CRON_INTERACTIONS
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: setup_reservation_cron_complete")
 
@@ -353,6 +387,9 @@ def setup_reservation_cron_cancel(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Cancelled setup_reservation_cron")
 
     if _IS_ACTIVATED:
@@ -370,6 +407,9 @@ def setup_reservation_cron_cancel(update: Update, _: CallbackContext) -> int:
 def remove_reservation_cron(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CRON_INTERACTIONS
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: remove_reservation_cron")
 
@@ -395,6 +435,9 @@ def remove_reservation_cron(update: Update, _: CallbackContext) -> int:
 def remove_reservation_cron_complete(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CRON_INTERACTIONS
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: remove_reservation_cron_complete")
 
@@ -432,6 +475,9 @@ def remove_reservation_cron_cancel(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Cancelled remove_reservation_cron")
 
     if _IS_ACTIVATED:
@@ -448,6 +494,9 @@ def remove_reservation_cron_cancel(update: Update, _: CallbackContext) -> int:
 
 def setup_balance_alert(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: setup_balance_alert")
 
@@ -469,6 +518,9 @@ def setup_balance_alert(update: Update, _: CallbackContext) -> int:
 def setup_balance_alert_complete(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _BALANCE_ALERT
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: setup_balance_alert_complete")
 
@@ -498,6 +550,9 @@ def setup_balance_alert_cancel(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _CREATION_CRON_INFO
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Cancelled setup_balance_alert")
 
     if _IS_ACTIVATED:
@@ -515,6 +570,9 @@ def remove_balance_alert(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _BALANCE_ALERT
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Received new request: setup_balance_alert")
 
     if _IS_ACTIVATED:
@@ -530,6 +588,9 @@ def remove_balance_alert(update: Update, _: CallbackContext) -> int:
 def reservation_done(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
     global _BALANCE_ALERT
+
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
 
     _LOGGER.debug("Received new request: reservation_done")
 
@@ -554,6 +615,9 @@ def reservation_done(update: Update, _: CallbackContext) -> int:
 def reservation_failed(update: Update, _: CallbackContext) -> int:
     global _IS_ACTIVATED
 
+    if not _authenticate(update):
+        return CmdStatus.UNAUTHORISED_USER
+
     _LOGGER.debug("Received new request: reservation_failed")
 
     update.message.reply_text(
@@ -574,6 +638,31 @@ def unknown(update: Update, context: CallbackContext) -> None:
 #
 # Internal helpers
 #
+def _load_users_whitelist() -> list:
+    valid_users = []
+    loaded_users = load_from_secret_file("telegram_users_whitelist.txt")
+    for user in loaded_users.split():
+        strip_user = str(user.strip())
+        valid_users.append(strip_user)
+    return valid_users
+
+
+def _authenticate(update: Update) -> bool:
+    chat_id = str(update.effective_chat.id)
+    _LOGGER.debug("Authenticating message from chat id " + chat_id)
+
+    users_whitelist = _load_users_whitelist()
+    _LOGGER.debug("List: " + str(users_whitelist))
+    if chat_id not in users_whitelist:
+        update.message.reply_text(
+            "Your user is not authorised.\n"
+            + "Please contact the administrator.\n"
+        )
+        return False
+
+    return True
+
+
 def _add_handlers(dispatcher: Dispatcher) -> None:
     help_handler = CommandHandler("help", show_help)
     dispatcher.add_handler(help_handler)
