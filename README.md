@@ -4,7 +4,6 @@
 <!-- Repository License -->
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cristianrcv/reservation-cron/blob/master/LICENSE)
 
-
 # Automatic Reservation
 
 A Telegram bot that:
@@ -13,18 +12,17 @@ A Telegram bot that:
 - Notifies you every time a reservation has been made (or failed)
 - Notifies you when the balance is lower than a certain limit
 
-
 ---
 
 ## Table of Contents
 
 * [Dependencies](#dependencies)
+* [How To Run](#how-to-run)
 * [Contributing](#contributing)
 * [Author](#author)
 * [License](#license)
 
 ---
-
 
 ## Dependencies
 
@@ -33,19 +31,24 @@ A Telegram bot that:
 - schedule
 - selenium
 
+## How To Run
+
+```bash
+export PYTHONPATH=$PYTHONPATH:$REPO_DIR/src
+export PATH=$PATH:$CHROME_DRIVER_HOME
+python src/bots/telegram/reservation_bot.py
+```
 
 ## Contributing
 
-All kinds of contributions are welcome. Please do not hesitate to open a new issue,
-submit a pull request or contact the author if necessary. 
- 
+All kinds of contributions are welcome. Please do not hesitate to open a new issue, submit a pull request or contact the
+author if necessary.
 
 ## Authors
 
 Cristián Ramón-Cortés Vilarrodona <cristian.ramoncortes(at)bsc.es> ([Personal Website][cristian])
 
 Dani Llorens
-
 
 ## License
 
